@@ -17,25 +17,19 @@ pipeline {
             }
         }
         stage('Terraform Initialisation') {
-            steps {
-                dir('terraform') {
+            steps {  
                     sh 'terraform init'
                 }
             }
-        }
         stage('Terraform Planning') {
-            steps {
-                dir('terraform') {
+            steps {   
                     sh 'terraform plan'
                 }
             }
-        }
         stage('Terraform Apply') {
             steps {
-                dir('terraform') {
                     sh 'terraform apply --auto-approve'
                 }
             }
-        }
     }
 }
