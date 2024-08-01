@@ -12,13 +12,3 @@ resource "aws_instance" "my_ec2" {
     Name = "MyEC2Instance"
   }
 }
-
-# Create an S3 bucket
-resource "aws_s3_bucket" "my-jerryparakode1993-bucket" {
-  bucket = "my-jerryparakode1993-bucket"
-
-
-  tags = {
-    Name = "My-S3-Bucket"
-  }
-}
