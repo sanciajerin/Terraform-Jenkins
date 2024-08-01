@@ -1,43 +1,48 @@
 pipeline {
-    
-  environment {
+    agent any
+
+    tools {
+        terraform 'terraform' // Name should match the one configured in Jenkins Global Tool Configuration
+    }
+
+    environment {
         AWS_ACCESS_KEY_ID     = credentials('Access-key')
         AWS_SECRET_ACCESS_KEY = credentials('Secret-key')
     }
-   tools{
-       terraform 'terraform'
-   }
-    
-  agent any
-     stages {
+
+    stages {
         stage('Clone Repo') {
             steps {
-               git branch: 'main', credentialsId: 'github', url: 'https://github.com/sanciajerin/Terraform-Jenkins.git'
+                git branch: 'main', credentialsId: 'github', url: 'https://github.com/sanciajerin/Terraform-Jenkins.git'
             }
         }
         stage('Terraform Initialisation') {
             steps {
                 dir('terraform') {
-                    sh 'pwd;cd terraform/ ;terraform init'
+                    sh 'terraform init'
                 }
             }
         }
-        stage('Terraform Validating') {
+        stage('Terraform Validation') {
             steps {
-               sh 'pwd;cd terraform/ ;terraform validate'                    
+                dir('terraform') {
+                    sh 'terraform validate'
+                }
             }
         }
-
         stage('Terraform Planning') {
             steps {
-               sh 'pwd;cd terraform/ ;terraform plan'                    
+                dir('terraform') {
+                    sh 'terraform plan'
+                }
             }
         }
         stage('Terraform Apply') {
             steps {
-               sh 'pwd;cd terraform/ ;terraform apply --auto-approve'
-                }      
+                dir('terraform') {
+                    sh 'terraform apply --auto-approve'
+                }
+            }
         }
     }
 }
-
