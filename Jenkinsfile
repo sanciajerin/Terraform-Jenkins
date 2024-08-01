@@ -22,9 +22,9 @@ pipeline {
                 }
             }
         }
-        stage('Terraform Planning') {
+        stage('Terraform Validating') {
             steps {
-               sh 'pwd;cd terraform/ ;terraform plan'                    
+               sh 'pwd;cd terraform/ ;terraform validate'                    
             }
         }
 
